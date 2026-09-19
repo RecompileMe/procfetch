@@ -49,7 +49,7 @@ std::string gethostname(const std::string &path)
  * @returns gets name of Operating System
  * @param path
  */
-std::string getOS(std::string path)
+std::string getOS(const std::string &path)
 {
     std::fstream fptr;
     fptr.open(path, std::ios::in);
@@ -85,7 +85,7 @@ std::string getHardwarePlatform()
     auto cmd = Command::exec("uname -m");
     std::string s = cmd.getOutput();
 
-    s = s.substr(0, s.find("\n"));
+    s = s.substr(0, s.find('\n'));
     return " " + s;
 }
 
@@ -93,7 +93,7 @@ std::string getHardwarePlatform()
  * @returns gets Host
  * @param path
  */
-std::string getHost(std::string path)
+std::string getHost(const std::string &path)
 {
     std::fstream f1, f2;
     std::string p1, p2, n1, n2;
@@ -117,7 +117,7 @@ std::string getHost(std::string path)
  * @returns gets kernel
  * @param path
  */
-std::string getKernel(std::string path)
+std::string getKernel(const std::string &path)
 {
     std::fstream fptr;
     fptr.open(path, std::ios::in);
@@ -130,14 +130,14 @@ std::string getKernel(std::string path)
  * @returns get Uptime
  * @param path
  */
-std::string getUpTime(std::string path)
+std::string getUpTime(const std::string &path)
 {
     std::fstream fptr;
     fptr.open(path, std::ios::in);
     std::string time;
 
     getline(fptr, time);
-    time = time.substr(0, time.find(" "));
+    time = time.substr(0, time.find(' '));
 
     int m = stoi(time) / 60;
     int h = m / 60;
@@ -165,7 +165,7 @@ std::string getUpTime(std::string path)
  * @returns gets RAM usage details
  * @param path
  */
-std::string getRAM(std::string path)
+std::string getRAM(const std::string &path)
 {
     std::fstream fptr;
     fptr.open(path, std::ios::in);
@@ -174,7 +174,7 @@ std::string getRAM(std::string path)
     while (fptr)
     {
         getline(fptr, line);
-        sub = line.substr(0, line.find(":"));
+        sub = line.substr(0, line.find(':'));
         if (sub == "MemTotal")
         {
             total = line;
@@ -195,7 +195,7 @@ std::string getRAM(std::string path)
         }
     }
     total = total.substr(i);
-    total = total.substr(0, total.find(" "));
+    total = total.substr(0, total.find(' '));
 
     for (i = 0; i < avail.size(); i++)
     {
@@ -203,7 +203,7 @@ std::string getRAM(std::string path)
             break;
     }
     avail = avail.substr(i);
-    avail = avail.substr(0, avail.find(" "));
+    avail = avail.substr(0, avail.find(' '));
 
     int memTotal = stoi(total);
     int memAvail = stoi(avail);
@@ -217,7 +217,7 @@ std::string getRAM(std::string path)
  * @returns gets type of shell
  * @param path
  */
-std::string getSHELL(std::string path)
+std::string getSHELL(const std::string &path)
 {
     std::fstream fptr;
     fptr.open(path, std::ios::in);
@@ -225,12 +225,12 @@ std::string getSHELL(std::string path)
     while (fptr)
     {
         getline(fptr, line);
-        sub = line.substr(0, line.find(":"));
+        sub = line.substr(0, line.find(':'));
         if (sub == getuser())
             break;
     }
     reverse(line.begin(), line.end());
-    line = line.substr(0, line.find("/"));
+    line = line.substr(0, line.find('/'));
     reverse(line.begin(), line.end());
     return line;
 }
@@ -265,14 +265,14 @@ bool resCheck()
  * @returns gets current Screen Resolution
  * @param path
  */
-std::string getRES(std::string path)
+std::string getRES(const std::string &path)
 {
     std::fstream fptr;
     fptr.open(path, std::ios::in);
     std::string res;
     getline(fptr, res);
     res = res.substr(2);
-    return res.substr(0, res.find("p"));
+    return res.substr(0, res.find('p'));
 }
 
 /**
@@ -303,7 +303,7 @@ std::string getIcons()
  * @returns gets CPU info
  * @param path
  */
-std::string getCPU(std::string path)
+std::string getCPU(const std::string &path)
 {
     std::fstream fptr;
     fptr.open(path, std::ios::in);
@@ -316,7 +316,7 @@ std::string getCPU(std::string path)
         if (sub == "model name")
             break;
     }
-    cpu = line.substr(line.find(":") + 2);
+    cpu = line.substr(line.find(':') + 2);
 
     return cpu;
 }
@@ -333,7 +333,7 @@ bool CpuTempCheck()
  * @returns gets CPU temp
  * @param path
  */
-int getCPUtemp(std::string path)
+int getCPUtemp(const std::string &path)
 {
     std::fstream fptr;
     fptr.open(path, std::ios::in);
@@ -475,7 +475,7 @@ std::string getPackages()
  * @brief Utility to check if battery is charging or not
  * @returns status of battery
  */
-bool isCharging(std::string path)
+bool isCharging(const std::string &path)
 {
     std::fstream fptr;
     fptr.open(path, std::ios::in);
@@ -488,7 +488,7 @@ bool isCharging(std::string path)
 /**
  * @brief Utility to print battery perecentage bar
  */
-void printBar(std::string status_path, int battery)
+void printBar(const std::string &status_path, int battery)
 {
     auto red = Crayon{}.bright().red();
     auto green = Crayon{}.bright().green();
@@ -511,17 +511,15 @@ void printBar(std::string status_path, int battery)
             std::cout << red.text("-");
     }
     std::cout << green.text("]") << std::endl;
-
-    return;
 }
 
 /**
  * @returns prints battery percentage bar
  * @param path
  */
-void printBattery(std::string path)
+void printBattery(const std::string &path)
 {
-    std::string dir_path = "";
+    std::string dir_path{};
     std::string capacity_path;
     std::string status_path;
 
@@ -538,7 +536,7 @@ void printBattery(std::string path)
     }
 
     /* we don't have battery information */
-    if (dir_path == "")
+    if (dir_path.empty())
         return;
 
     capacity_path = dir_path + "/capacity";
@@ -554,7 +552,7 @@ void printBattery(std::string path)
  * @param art
  * @param color_name
  */
-void printProcess(std::string art, std::string color_name)
+void printProcess(const std::string &art, std::string &color_name)
 {
     std::string LIB_DIR = "@LIB_DIR@";
     std::string path = LIB_DIR + "/ascii/" + art;
@@ -564,12 +562,12 @@ void printProcess(std::string art, std::string color_name)
     getline(fptr, txt);
     auto style = Crayon{}.bright();
     if (color_name == "def")
-        style = style.color(txt.substr(0, txt.find(" ")));
+        style = style.color(txt.substr(0, txt.find(' ')));
     else
     {
         transform(color_name.begin(), color_name.end(), color_name.begin(),
                   ::toupper);
-        style = style.color(color_name.substr(0, color_name.find(" ")));
+        style = style.color(color_name.substr(0, color_name.find(' ')));
     }
     std::cout << style.text("") << std::endl;
     while (fptr)
@@ -585,7 +583,7 @@ void printProcess(std::string art, std::string color_name)
  * @param color_name
  * @param distro_name
  */
-void print(std::string color_name, std::string distro_name)
+void print(std::string &color_name, std::string &distro_name)
 {
     std::string os = distro_name;
 
@@ -635,6 +633,4 @@ void print(std::string color_name, std::string distro_name)
     }
 
     printProcess("linux.ascii", color_name);
-
-    return;
 }
