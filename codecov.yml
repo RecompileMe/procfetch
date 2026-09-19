@@ -1,3 +1,0 @@
-# ignore fetch.cpp
-ignore:
-  - "src/fetch.cpp"
