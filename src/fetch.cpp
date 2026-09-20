@@ -2,6 +2,7 @@
  * @file
  */
 #include <mutex>
+#include <algorithm>
 #include <pwd.h>
 #include <string>
 #include <iostream>
