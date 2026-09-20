@@ -26,4 +26,3 @@ bool resCheck();
 bool CpuTempCheck();
 int getCPUtemp(const std::string &path);
 void printBattery(const std::string &path);
-void print(std::string &color, std::string &distro_name);

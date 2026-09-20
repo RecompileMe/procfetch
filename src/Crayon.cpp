@@ -1,7 +1,5 @@
 #include "Crayon.hpp"
 
-Crayon::Crayon():escape_codes(0) { }
-
 Crayon Crayon::bright()
 {
     escape_codes += BRIGHT;

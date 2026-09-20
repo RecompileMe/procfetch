@@ -9,10 +9,6 @@ class Crayon
 {
 public:
     /**
-     * default constructor
-     */
-    Crayon();
-    /**
      * set bright mode
      */
     Crayon bright();
@@ -38,7 +34,7 @@ public:
     std::string text(std::string s);
 
 private:
-    std::string escape_codes;
+    std::string escape_codes{};
     inline static std::map<std::string, std::string> m =
     {
             {"RED", RED},         {"GREEN", GREEN},   {"BLACK", BLACK},

@@ -7,13 +7,7 @@
 #include "Crayon.hpp"
 #include "Options.hpp"
 
-#define VERSION "@VERSION@"
-
-/**
- * @returns Displays Info
- * @param show_battery
- */
-void DisplayInfo(bool show_battery)
+void DisplayInfo()
 {
     std::string delim = ": ";
     auto title = Crayon{}.bright().green();
@@ -56,9 +50,7 @@ void DisplayInfo(bool show_battery)
         std::cout << title.text("GPU") << delim << gpu << std::endl;
 
     std::cout << title.text("Packages") << delim << getPackages() << std::endl;
-
-    if (show_battery)
-        printBattery("/sys/class/power_supply/");
+    printBattery("/sys/class/power_supply/");
 
     std::cout << std::endl;
 }
@@ -70,31 +62,7 @@ void DisplayInfo(bool show_battery)
  */
 int main(int argc, char *argv[])
 {
-    auto options = Options(argc, argv);
-    if (optind != argc)
-    {
-        std::cout << "Error: " << argv[0] << ": unknown argument: " << argv[optind]
-             << std::endl;
-        return 1;
-    }
-
-    switch (options.mode)
-    {
-    case Mode::NORMAL:
-        // no-op
-        break;
-    case Mode::SHOW_VERSION:
-        std::cout << VERSION << std::endl;
-        return 0;
-    default:
-        // MUST NOT BE HERE
-        return 1;
-    }
-
-    // Mode::NORMAL
-    print(options.color_name, options.distro_name);
-    DisplayInfo(options.show_battery);
-
+    DisplayInfo();
     return 0;
 }
 

@@ -18,11 +18,8 @@ Options::Options(int argc, char **argv)
             case 'b':
                 show_battery = true;
                 break;
-            case 'v':
-                mode = Mode::SHOW_VERSION;
-                break;
             default:
-                exit(1);
+                break;
         }
     }
 }
